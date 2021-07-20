@@ -13,11 +13,45 @@ public class PlayerMovement : MonoBehaviour
     public float rightlimit;
     private float x;
     private float y;
+    public AnimationClip walkanimation;
+    public PlayerAnimationController myController;
+    public bool moving = false;
+    public bool allowmove = true;
+
+    private void OnEnable()
+    {
+        if (myController == null)
+        {
+            myController.GetComponentInParent<PlayerAnimationController>();
+        }
+    }
+
+    public void AllowMove(bool boo)
+    {
+        allowmove = boo;
+    }
+
+    private void CheckWalkAnimation()
+    {
+        if (myController.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("AlienIdle") && moving)
+        {
+            myController.myAnimator.Play(walkanimation.name);
+            myController.myAnimator.SetBool("Walking", true);
+        }
+
+        if (moving == false && myController.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("AlienWalk"))
+        {
+            myController.myAnimator.SetBool("Walking", false);
+        }
+    }
+
+    
 
     private void Up()
     {
         if (Input.GetKey(KeyCode.W))
         {
+            moving = true;
             y += verticalspeed * Time.deltaTime;
             if (y > toplimit)
                 y = toplimit;
@@ -28,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.S))
         {
+            moving = true;
             y -= verticalspeed * Time.deltaTime;
         }
         if (y < bottomlimit)
@@ -38,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A))
         {
+            moving = true;
             x -= horizontalspeed * Time.deltaTime;
         }
         if (x < leftlimit)
@@ -48,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.D))
         {
+            moving = true;
             x += horizontalspeed * Time.deltaTime;
         }
         if (x > rightlimit)
@@ -56,13 +93,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        y = player.gameObject.transform.position.y;
-        x = player.gameObject.transform.position.x;
-        Up();
-        Down();
-        Left();
-        Right();
-        player.transform.position = new Vector3(x, y, gameObject.transform.position.z);
+        if (allowmove)
+        {
+            moving = false;
+            y = player.gameObject.transform.position.y;
+            x = player.gameObject.transform.position.x;
+            Up();
+            Down();
+            Left();
+            Right();
+            CheckWalkAnimation();
+            player.transform.position = new Vector3(x, y, gameObject.transform.position.z);
+        }
     }
 
 }
