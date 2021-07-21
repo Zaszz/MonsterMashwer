@@ -10,6 +10,6 @@ public class EnemyAnimationController : MonoBehaviour
 
     public void PlayIdle()
     {
-        myAnimator.Play(myIdleAnimation.name);
+        myAnimator.Play("Movement");
     }
 }

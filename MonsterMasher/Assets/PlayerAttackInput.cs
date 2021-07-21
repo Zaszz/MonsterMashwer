@@ -6,6 +6,7 @@ public class PlayerAttackInput : MonoBehaviour
 {
     public PlayerAttack myAttack;
     public PlayerMovement myMovement;
+    public PlayerHitable myHitable;
     public bool attacking = false;
     private bool coroutine = false;
 
@@ -36,7 +37,7 @@ public class PlayerAttackInput : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Space)  && myMovement.allowmove == true)
+        if (Input.GetKey(KeyCode.Space)  && myMovement.allowmove == true  && myHitable.hitstunned == false)
         {
 
             StartAttack();

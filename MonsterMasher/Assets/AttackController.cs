@@ -28,6 +28,11 @@ public class AttackController : MonoBehaviour
         myEnemyAnimator.myAnimator.Play(myAnimation.name);
     }
 
+    public void EndAttack()
+    {
+
+    }
+
     //gets called only through animation events.
     public void ActivatePunchHitBox()
     {

@@ -9,7 +9,7 @@ public class PlayerHitable : Hitable
     private int myHealth;
     private PlayerAnimationController myPlayerAnimationController;
     public AnimationClip myHitClip;
-
+    public bool hitstunned = false;
 
     private void OnEnable()
     {
@@ -17,6 +17,11 @@ public class PlayerHitable : Hitable
         {
             myPlayerAnimationController = gameObject.GetComponent<PlayerAnimationController>();
         }
+    }
+
+    public void EndHitStun()
+    {
+        hitstunned = false;
     }
 
     public override void GetHit(int damage)
@@ -32,6 +37,6 @@ public class PlayerHitable : Hitable
         myHealth -= damage;
 
         myPlayerAnimationController.myAnimator.Play(myHitClip.name);
-
+        hitstunned = true;
     }
 }

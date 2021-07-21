@@ -9,7 +9,7 @@ public class EnemyHitable : Hitable
     private int myHealth;
     private EnemyAnimationController myEnemyAnimator;
     public AnimationClip myHitClip;
-
+    public bool hitstunned = false;
 
     private void OnEnable()
     {
@@ -18,6 +18,12 @@ public class EnemyHitable : Hitable
             myEnemyAnimator = gameObject.GetComponent<EnemyAnimationController>();
         }
     }
+
+    public void EndHitStun()
+    {
+        hitstunned = false;
+    }
+
 
     public override void GetHit(int damage)
     {
@@ -32,6 +38,8 @@ public class EnemyHitable : Hitable
         myHealth -= damage;
 
         myEnemyAnimator.myAnimator.Play(myHitClip.name);
+
+        hitstunned = true;
 
     }
 }
