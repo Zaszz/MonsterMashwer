@@ -8,6 +8,7 @@ public class PlayerHitable : Hitable
     [SerializeField]
     private int myHealth;
     private PlayerAnimationController myPlayerAnimationController;
+    private PlayerMasterController myMaster;
     public AnimationClip myHitClip;
     public bool hitstunned = false;
 
@@ -17,11 +18,19 @@ public class PlayerHitable : Hitable
         {
             myPlayerAnimationController = gameObject.GetComponent<PlayerAnimationController>();
         }
+
+        if (myMaster == null)
+        {
+            myMaster = gameObject.GetComponent<PlayerMasterController>();
+        }
     }
 
     public void EndHitStun()
     {
-        hitstunned = false;
+
+            hitstunned = false;
+
+
     }
 
     public override void GetHit(int damage)
@@ -35,8 +44,15 @@ public class PlayerHitable : Hitable
         }
 
         myHealth -= damage;
-
-        myPlayerAnimationController.myAnimator.Play(myHitClip.name);
-        hitstunned = true;
+        if (myHealth > 0)
+        {
+            myPlayerAnimationController.myAnimator.Play(myHitClip.name);
+            hitstunned = true;
+        }
+        else
+        {
+            myMaster.playerMovement.allowmove = false;
+            myMaster.playerAnimationController.PlayDie();
+        }
     }
 }

@@ -14,4 +14,6 @@ public class PlayerMasterController : MonoBehaviour
         PlayerManager.playerObject = this.gameObject;
     }
 
+
+
 }
