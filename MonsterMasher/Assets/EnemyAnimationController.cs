@@ -12,4 +12,9 @@ public class EnemyAnimationController : MonoBehaviour
     {
         myAnimator.Play("Movement");
     }
+
+    public void PlayDie()
+    {
+        myAnimator.Play("AlienDeath");
+    }
 }

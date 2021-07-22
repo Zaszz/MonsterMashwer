@@ -47,7 +47,7 @@ public class PlayerAttack : MonoBehaviour
     {
         hitbox = false;
     }
-
+    /*
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Hitable hit = collision.gameObject.GetComponentInParent<Hitable>();
@@ -59,5 +59,6 @@ public class PlayerAttack : MonoBehaviour
             hit.GetHit(damage);
         }
     }
+    */
     
 }

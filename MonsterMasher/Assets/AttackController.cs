@@ -12,6 +12,7 @@ public class AttackController : MonoBehaviour
     public Collider2D myCollider;
     public bool hitbox = false;
     public GameObject hitBoxObject;
+    
 
     private void OnEnable()
     {
@@ -28,10 +29,7 @@ public class AttackController : MonoBehaviour
         myEnemyAnimator.myAnimator.Play(myAnimation.name);
     }
 
-    public void EndAttack()
-    {
-
-    }
+    
 
     //gets called only through animation events.
     public void ActivatePunchHitBox()
@@ -52,7 +50,7 @@ public class AttackController : MonoBehaviour
     {
         hitbox = false;
     }
-
+    /*
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Hitable hit = collision.gameObject.GetComponentInParent<Hitable>();
@@ -69,5 +67,6 @@ public class AttackController : MonoBehaviour
     {
         
     }
+    */
 
 }

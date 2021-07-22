@@ -17,6 +17,8 @@ public class EnemyHitable : Hitable
         {
             myEnemyAnimator = gameObject.GetComponent<EnemyAnimationController>();
         }
+
+
     }
 
     public void EndHitStun()
@@ -29,6 +31,11 @@ public class EnemyHitable : Hitable
     {
         //what to do when the enemy is hit
 
+        if (hitstunned)
+        {//dont get hit while hit stunned
+            return;
+        }
+
         //for every attack we have make sure we turn off its events as we are now going to override with being hit.
         foreach (AttackController item in myAttacks)
         {
@@ -36,10 +43,19 @@ public class EnemyHitable : Hitable
         }
 
         myHealth -= damage;
-
-        myEnemyAnimator.myAnimator.Play(myHitClip.name);
-
         hitstunned = true;
+
+        if (myHealth > 0)
+        {
+            myEnemyAnimator.myAnimator.Play(myHitClip.name);
+
+        }
+        else
+        {
+
+            myEnemyAnimator.PlayDie();
+        }
+
 
     }
 }

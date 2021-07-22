@@ -14,11 +14,17 @@ public class AlienAI : MonoBehaviour
     public float horizontalspeed;
     public Rigidbody2D myRb;
 
-    public float delaytimemin = 1f;
-    public float delaytimemax = 2f;
+    public float delaytimemin = 0.25f;
+    public float delaytimemax = 1f;
     private float timer = 0f;
     private float brakestimer = 0f;
     private float brakedelay = 1f;
+
+
+    private void Start()
+    {
+        
+    }
 
     private void Update()
     {
@@ -43,6 +49,8 @@ public class AlienAI : MonoBehaviour
                 myRb.velocity = new Vector2(0, 0);
             }
         }
+
+
     }
 
     private void UpdateFacing()
@@ -59,7 +67,11 @@ public class AlienAI : MonoBehaviour
 
     private void DetermineAction()
     {
-
+        if (Random.Range(1, 100)>60)
+        {
+            Attack();
+            return;
+        }
 
         if (PlayerManager.playerObject.transform.position.y < gameObject.transform.position.y  && gameObject.transform.position.y - PlayerManager.playerObject.transform.position.y >verticaldifferenceallowed)
         {
@@ -132,5 +144,13 @@ public class AlienAI : MonoBehaviour
     private void Attack()
     {
         myAttack.BeginAttack();
+
     }
+
+    public void EndAttack()
+    {
+
+    }
+
+
 }

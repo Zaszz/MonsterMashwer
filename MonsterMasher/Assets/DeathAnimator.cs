@@ -36,6 +36,16 @@ public class DeathAnimator : MonoBehaviour
             if (timer <= 0)
             {
                 timer = 0f;
+                PlayerMasterController cont = gameObject.GetComponent<PlayerMasterController>();
+                if (cont != null)
+                {
+                    //game over
+                }
+                else
+                {
+                    //monster died.
+                    gameObject.SetActive(false);
+                }
             }
         }
     }
