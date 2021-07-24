@@ -12,6 +12,7 @@ public class AttackController : MonoBehaviour
     public Collider2D myCollider;
     public bool hitbox = false;
     public GameObject hitBoxObject;
+    public AudioSource source;
     
 
     private void OnEnable()
@@ -25,7 +26,7 @@ public class AttackController : MonoBehaviour
     //gets called by any function that wants to start the attack animation
     public void BeginAttack()
     {
-
+        source.Play();
         myEnemyAnimator.myAnimator.Play(myAnimation.name);
     }
 

@@ -13,6 +13,8 @@ public class PlayerAttack : MonoBehaviour
     public Collider2D myCollider;
     public bool hitbox = false;
     public GameObject hitBoxObject;
+    public AudioSource audiosource;
+    public AudioClip clip;
 
     private void Awake()
     {
@@ -30,7 +32,8 @@ public class PlayerAttack : MonoBehaviour
     //gets called by any function that wants to start the attack animation
     public void BeginAttack()
     {
-
+        audiosource.clip = clip;
+        audiosource.Play();
         myPlayerAnimationController.myAnimator.Play(myAnimation.name);
 
     }

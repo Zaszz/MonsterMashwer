@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class EnemyHitable : Hitable
 {
@@ -10,6 +11,10 @@ public class EnemyHitable : Hitable
     private EnemyAnimationController myEnemyAnimator;
     public AnimationClip myHitClip;
     public bool hitstunned = false;
+    public AudioSource source;
+    public AudioSource deathsource;
+    public event Action Died;
+
 
     private void OnEnable()
     {
@@ -20,6 +25,8 @@ public class EnemyHitable : Hitable
 
 
     }
+
+
 
     public int GetHealth()
     {
@@ -53,12 +60,14 @@ public class EnemyHitable : Hitable
         if (myHealth > 0)
         {
             myEnemyAnimator.myAnimator.Play(myHitClip.name);
+            source.Play();
 
         }
         else
         {
-
+            Died?.Invoke();
             myEnemyAnimator.PlayDie();
+            deathsource.Play();
         }
 
 

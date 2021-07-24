@@ -1,20 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using UnityEngine.SceneManagement;
 
 public class PlayerHitable : Hitable
 {
     public List<PlayerAttack> myAttacks = new List<PlayerAttack>();
+    public List<PlayerSpecialAttack> mySpecials = new List<PlayerSpecialAttack>();
     [SerializeField]
     private int myHealth;
     private PlayerAnimationController myPlayerAnimationController;
     private PlayerMasterController myMaster;
     public AnimationClip myHitClip;
     public bool hitstunned = false;
+    public AudioSource source;
+    public AudioClip hitnoise;
 
+    public event Action Died;
     public int GetHealth()
     {
         return myHealth;
+    }
+
+    public void SetHealth(int newHp)
+    {
+        myHealth = newHp;
+    }
+
+    public void Heal()
+    {
+        myHealth += 1;
+        if (myHealth > 5)
+            myHealth = 5;
+        HeartController.Instance.UpdateHealthUI(myHealth);
     }
 
     private void OnEnable()
@@ -50,8 +69,8 @@ public class PlayerHitable : Hitable
     {
         //what to do when the enemy is hit
 
-        if (hitstunned)
-        {//dont get hit while hit stunned
+        if (hitstunned || gameObject.GetComponent<PlayerAttackInput>().eating)
+        {//dont get hit while hit stunned  or eating
             return;
         }
 
@@ -61,7 +80,14 @@ public class PlayerHitable : Hitable
             item.GotHit();
         }
 
+        foreach (PlayerSpecialAttack item in mySpecials)
+        {
+            item.GotHit();
+        }
+
         myHealth -= damage;
+        source.clip = hitnoise;
+        source.Play();
         if (myHealth > -1)
         {
             HeartController.Instance.UpdateHealthUI(myHealth);
@@ -75,8 +101,16 @@ public class PlayerHitable : Hitable
         }
         else
         {
+            StartCoroutine("GoToMain");
+            Died?.Invoke();
             myMaster.playerMovement.allowmove = false;
             myMaster.playerAnimationController.PlayDie();
         }
+    }
+
+    IEnumerator GoToMain()
+    {
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(0);
     }
 }

@@ -16,8 +16,13 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void PlayDie()
     {
-        myAnimator.speed = 1f;
+
         myAnimator.Play("AlienDeath");
 
+    }
+
+    public void Eat()
+    {
+        myAnimator.Play("SkeletonEating");
     }
 }
